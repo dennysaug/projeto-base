@@ -16,9 +16,5 @@ class DefaultController extends Controller
         return 'Olá mundo! home';
     }
 
-    public function teste()
-    {
-        return 'teste';
-        //return Auth::user()->nome;
-    }
+
 }

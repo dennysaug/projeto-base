@@ -7,14 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Usuario extends Authenticatable
 {
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'nome', 'email', 'password', 'cpf',
-    ];
+    protected $fillable = ['grupo_usuario_id', 'nome', 'email', 'password', 'cpf'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -28,6 +27,13 @@ class Usuario extends Authenticatable
     public function grupo_usuario()
     {
         return $this->belongsTo(GrupoUsuario::class);
+    }
+
+    public function setPasswordAttribute($senha)
+    {
+        if($senha) {
+            $this->attributes['password'] =  bcrypt($senha);
+        }
     }
 
 
