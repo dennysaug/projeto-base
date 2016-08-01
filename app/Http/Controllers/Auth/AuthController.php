@@ -42,6 +42,12 @@ class AuthController extends Controller
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
+
+    public function index()
+    {
+        return view('controle.login.index');
+    }
+
     /**
      * Handle an authentication attempt.
      *
@@ -50,6 +56,7 @@ class AuthController extends Controller
     public function autenticar(Request $request)
     {
         $input = $request->except('_token');
+
         if (Auth::attempt($input)) {
             // Authentication passed...
 
@@ -59,9 +66,17 @@ class AuthController extends Controller
 
             return redirect()->intended('controle');
         } else {
-            dd('login e senha errado');
+            dd('login e senha errado', $input);
         }
     }
+
+//    public function logout()
+//    {
+//        Auth::logout();
+//        session()->flush();
+//        return redirect()->route('controle.login.index');
+//    }
+
 
     /**
      * Get a validator for an incoming registration request.

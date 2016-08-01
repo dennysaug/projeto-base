@@ -15,11 +15,14 @@
     return view('welcome');
 });*/
 
-use Illuminate\Support\Facades\Auth;
-
 Route::get('/', 'DefaultController@index');
 
-Route::post('login', [
+Route::get('auth/login', [
+    'as' => 'controle.login.index',
+    'uses' => 'Auth\AuthController@index'
+]);
+
+Route::post('auth/login', [
     'as' => 'controle.login.autenticar',
     'uses' => 'Auth\AuthController@autenticar'
 ]);
@@ -30,34 +33,39 @@ Route::get('loga', function() {
 
 Route::group(['prefix' => 'controle', 'middleware' => 'auth'], function() {
 
+    Route::get('auth/logout', [
+        'as' => 'controle.logout.index',
+        'uses' => 'Auth\AuthController@logout'
+    ]);
+
     Route::get('/', [
         'as' => 'controle.home.index',
         'uses' => 'Controle\HomeController@index'
     ]);
 
-    Route::get('rota/{nome}', [
-        'as' => 'controle.home.index',
+    Route::get('rota/{nome?}', [
+        'as' => 'controle.rota.index',
         'uses' => 'Controle\HomeController@rota'
     ]);
 
     ################################## GRUPO DE USUÁRIO ##################################
     Route::get('grupo-usuario', [
-        'as' => 'controle.grupousuario.index',
+        'as' => 'controle.grupo-usuario.index',
         'uses' => 'Controle\GrupoUsuarioController@index'
     ]);
 
     Route::get('grupo-usuario/editar/{grupo?}', [
-        'as' => 'controle.grupousuario.form',
+        'as' => 'controle.grupo-usuario.edit',
         'uses' => 'Controle\GrupoUsuarioController@editar'
     ]);
 
     Route::post('grupo-usuario/salvar/{grupo?}', [
-        'as' => 'controle.grupousuario.salvar',
+        'as' => 'controle.grupo-usuario.salvar',
         'uses' => 'Controle\GrupoUsuarioController@salvar'
     ]);
 
     Route::get('grupo-usuario/excluir/{grupo?}', [
-        'as' => 'controle.grupousuario.excluir',
+        'as' => 'controle.grupo-usuario.excluir',
         'uses' => 'Controle\GrupoUsuarioController@excluir'
     ]);
     ########################################################################################
@@ -68,7 +76,7 @@ Route::group(['prefix' => 'controle', 'middleware' => 'auth'], function() {
     ]);
 
     Route::get('usuario/editar/{usuario?}', [
-        'as' => 'controle.usuario.form',
+        'as' => 'controle.usuario.edit',
         'uses' => 'Controle\UsuarioController@editar'
     ]);
 
@@ -82,25 +90,21 @@ Route::group(['prefix' => 'controle', 'middleware' => 'auth'], function() {
         'uses' => 'Controle\UsuarioController@excluir'
     ]);
     ########################################################################################
-    ###################################### TESTE #########################################
-    Route::get('teste', [
-        'as' => 'controle.teste.index',
-        'uses' => 'Controle\TesteController@index'
+    ##################################### PERMISSÃO #########################################
+    Route::get('permissao/{grupo?}', [
+        'as' => 'controle.permissao.index',
+        'uses' => 'Controle\PermissaoController@index'
     ]);
 
-    Route::get('teste/editar/{usuario?}', [
-        'as' => 'controle.teste.editar',
-        'uses' => 'Controle\TesteController@editar'
+    Route::post('permissao/salvar/{grupo?}', [
+        'as' => 'controle.permissao.salvar',
+        'uses' => 'Controle\PermissaoController@salvar'
     ]);
-
-    Route::post('teste/salvar/{usuario?}', [
-        'as' => 'controle.teste.salvar',
-        'uses' => 'Controle\TesteController@salvar'
-    ]);
-
-    Route::get('teste/excluir/{usuario?}', [
-        'as' => 'controle.teste.excluir',
-        'uses' => 'Controle\TesteController@excluir'
+    ########################################################################################
+    ##################################### LOG #########################################
+    Route::get('log', [
+        'as' => 'controle.log.index',
+        'uses' => 'Controle\LogController@index'
     ]);
     ########################################################################################
     ##NOVASROTAS##

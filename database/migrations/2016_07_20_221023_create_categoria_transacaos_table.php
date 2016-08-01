@@ -15,6 +15,7 @@ class CreateCategoriaTransacaosTable extends Migration
         Schema::create('categoria_transacaos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
+            $table->string('slug')->nullable();
             $table->tinyInteger('ordem')->nullable();
             $table->timestamps();
             $table->softDeletes();

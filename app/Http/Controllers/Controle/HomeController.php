@@ -10,8 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        dump(Auth::user());
-        return 'HOME DO CONTROLLE';
+        return view('controle.home.index');
     }
 
     public function rota($nome)

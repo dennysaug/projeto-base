@@ -3,11 +3,12 @@
 namespace App;
 
 //use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Usuario extends Authenticatable
 {
-
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -29,12 +30,12 @@ class Usuario extends Authenticatable
         return $this->belongsTo(GrupoUsuario::class);
     }
 
-    public function setPasswordAttribute($senha)
-    {
-        if($senha) {
-            $this->attributes['password'] =  bcrypt($senha);
-        }
-    }
+//    public function setPasswordAttribute($senha)
+//    {
+//        if($senha) {
+//            $this->attributes['password'] =  bcrypt($senha);
+//        }
+//    }
 
 
 }

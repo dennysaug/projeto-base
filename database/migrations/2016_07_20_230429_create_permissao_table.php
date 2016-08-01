@@ -17,6 +17,7 @@ class CreatePermissaoTable extends Migration
             $table->integer('grupo_id')->unsigned();
             $table->integer('transacao_id')->unsigned();
             $table->timestamps();
+            $table->unique(['grupo_id', 'transacao_id']);
 
             $table->foreign('grupo_id')->references('id')->on('grupo_usuarios');
             $table->foreign('transacao_id')->references('id')->on('transacaos');

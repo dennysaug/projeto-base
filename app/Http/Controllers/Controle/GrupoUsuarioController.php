@@ -15,9 +15,7 @@ class GrupoUsuarioController extends Controller
         $this->verificaPermissao('grupo-usuario.visualizar');
         $grupos = GrupoUsuario::orderBy('nome', 'asc')->get();
 
-        return $grupos;
-
-//        return view('controle.grupo.index', compact('grupos'));
+        return view('controle.grupo-usuario.index', compact('grupos'));
     }
 
     public function editar(GrupoUsuario $grupo = null)
@@ -33,32 +31,27 @@ class GrupoUsuarioController extends Controller
             $this->verificaPermissao('grupo-usuario.cadastrar');
         }
 
-        return $grupo;
-
-//        return view('controle.grupo.form', compact($data));
+        return view('controle.grupo-usuario.edit', compact($data));
     }
 
-    public function salvar(Request $request, GrupoUsuario $grupo = null)
+    public function salvar(GrupoUsuario $grupo = null, Request $request)
     {
         $input = $request->except('_token');
 
         if ($grupo->id) {
             $this->verificaPermissao('grupo-usuario.alterar');
             if ($grupo->update($input)) {
-                return 'Atualizou!';
-//                return redirect()->route('controle.grupo.index')->with('msg', 'Operação realizada com sucesso')->with('error', false);
+                return redirect()->route('controle.grupo-usuario.index')->with('error', false);
             }
 
         } else {
             $this->verificaPermissao('grupo-usuario.cadastrar');
             $grupo = GrupoUsuario::create($input);
-            return 'Cadastrou. id: ' . $grupo->id;
-//            return redirect()->route('controle.grupo.index')->with('msg', 'Operação realizada com sucesso')->with('error', false);
+            return redirect()->route('controle.grupo-usuario.index')->with('error', false);
         }
 
         if (!$grupo->id) {
-            return 'erro!';
-//            return redirect()->route('controle.grupo.form', $grupo)->with('msg', 'Não foi possível efetuar a operação')->with('error', true);
+            return redirect()->route('controle.grupo-usuario.form', $grupo)->with('error', true);
         }
 
     }
@@ -68,11 +61,9 @@ class GrupoUsuarioController extends Controller
         $this->verificaPermissao('grupo-usuario.excluir');
 
         if ($grupo and $grupo->delete()) {
-            return 'Excluído com sucesso';
-//            return redirect()->route('controle.grupo.index')->with('msg', 'Operação realizada com sucesso')->with('error', false);
+            return redirect()->route('controle.grupo-usuario.index')->with('error', false);
         }
-        return 'Erro!';
-//        return redirect()->route('controle.grupo.index')->with('msg', 'Não foi possível efetuar a operação')->with('error', true);
+        return redirect()->route('controle.grupo-usuario.index')->with('error', true);
     }
 
 }

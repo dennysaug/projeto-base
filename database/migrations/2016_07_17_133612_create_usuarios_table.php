@@ -16,6 +16,7 @@ class CreateUsuariosTable extends Migration
             $table->increments('id');
             $table->integer('grupo_usuario_id')->unsigned();
             $table->string('nome');
+            $table->string('slug')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->string('cpf', 20)->nullable();
